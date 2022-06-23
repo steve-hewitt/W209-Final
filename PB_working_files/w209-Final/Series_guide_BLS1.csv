@@ -1,0 +1,111 @@
+﻿Indent Level;Series_ID;Item and Group;CPI-U Weights (2019-2020);CPI-U Weights (2017-2018);May_22_YY-Change%;2021_YY-Change%;2020_YY-Change%;2019_YY-Change%;May_22_MM-Change%
+1;CUUR0000SAF;Food and beverages;14,259;15,01;9,7%;6,0%;3,8%;1,7%;1,1%
+2;CUUR0000SAF1;Food;13,370;14,018;10,1%;6,3%;3,9%;1,8%;1,1%
+3;CUUR0000SAF11;Food at home;8,165;7,732;11,9%;6,5%;3,9%;0,7%;1,3%
+3;CUUR0000SEFV;Food away from home;5,205;6,287;7,4%;6,0%;3,9%;3,1%;0,7%
+3;CUUR0000SAF116;Alcoholic beverages;0,889;0,992;4,0%;2,3%;2,8%;0,5%;0,3%
+1;CUUR0000SAH;Housing;42,363;41,599;6,9%;5,1%;2,0%;2,6%;0,9%
+2;CUUR0000SAH1;Shelter;32,946;32,411;5,5%;4,1%;1,8%;3,2%;0,6%
+3;CUUR0000SEHA;Rent of primary residence;7,398;7,59;5,2%;3,3%;2,3%;3,7%;0,6%
+3;CUUR0000SEHB;Lodging away from home;0,914;0,955;19,3%;23,9%;-9,5%;-0,2%;2,5%
+3;CUUR0000SEHC;Owners' equivalent rent of residences;24,251;23,528;5,1%;3,8%;2,2%;3,3%;0,6%
+3;CUUR0000SEHD;Tenants' and household insurance;0,383;0,339;-0,4%;-0,9%;0,1%;0,1%;-0,1%
+2;CUUR0000SAH2;Fuels and utilities;4,637;4,49;15,5%;9,5%;2,3%;-0,2%;3,1%
+3;CUUR0000SAH21;Household energy;3,526;3,42;19,1%;11,6%;1,8%;-1,0%;4,0%
+3;CUUR0000SEHG;Water and sewer and trash collection services;1,111;1,07;4,4%;3,5%;3,6%;2,2%;0,2%
+2;CUUR0000SAH3;Household furnishings and operations;4,780;4,698;8,9%;7,4%;3,2%;1,0%;0,4%
+3;CUUR0000SEHH;Window and floor coverings and other linens;0,296;0,275;7,2%;8,7%;-1,8%;-1,9%;-0,4%
+3;CUUR0000SEHJ;Furniture and bedding;0,971;1,003;12,7%;13,8%;2,2%;1,2%;-0,2%
+3;CUUR0000SEHK;Appliances;0,254;0,218;6,4%;6,0%;6,2%;0,2%;-0,9%
+3;CUUR0000SEHL;Other household equipment and furnishings;0,561;0,526;5,8%;5,3%;1,0%;-1,0%;-2,0%
+3;CUUR0000SEHM;Tools hardware outdoor equipment and supplies;0,932;0,893;11,0%;7,2%;3,7%;0,9%;1,2%
+3;CUUR0000SEHN;Housekeeping supplies;0,922;0,879;9,2%;2,1%;4,9%;0,4%;1,0%
+3;CUUR0000SEHP;Household operations;0,844;0,903;9,7%;7,3%;2,1%;5,4%;2,1%
+1;CUUR0000SAA;Apparel;2,458;2,632;5,0%;5,8%;-3,9%;-1,2%;-0,1%
+2;CUUR0000SAA1;Men's and boys' apparel;0,625;0,671;7,3%;7,8%;-3,2%;-1,9%;0,0%
+3;CUUR0000SEAA;Men's apparel;0,477;0,535;7,8%;7,8%;-2,6%;-1,3%;0,1%
+3;CUUR0000SEAB;Boys' apparel;0,148;0,136;5,9%;8,1%;-5,5%;-4,0%;-0,3%
+2;CUUR0000SAA2;Women's and girls' apparel;0,952;1,048;4,1%;4,4%;-5,9%;-2,2%;-1,0%
+3;CUUR0000SEAC;Women's apparel;0,799;0,866;4,9%;5,9%;-7,7%;-3,0%;-0,7%
+3;CUUR0000SEAD;Girls' apparel;0,154;0,182;0,5%;-2,5%;2,8%;2,8%;-2,5%
+2;CUUR0000SEAE;Footwear;0,610;0,638;4,5%;6,0%;-2,2%;1,7%;0,4%
+3;CUUR0000SEAE01;Men's footwear;0,206;0,225;2,8%;7,4%;-2,2%;-0,3%;0,4%
+3;CUUR0000SEAE02;Boys' and girls' footwear;0,117;0,132;5,0%;4,1%;-1,6%;3,3%;1,6%
+3;CUUR0000SEAE03;Women's footwear;0,286;0,281;5,6%;5,8%;-2,4%;2,3%;-0,1%
+2;CUUR0000SEAF;Infants' and toddlers' apparel;0,113;0,122;10,2%;4,6%;-5,4%;-4,6%;2,2%
+2;CUUR0000SEAG;Jewelry and watches;0,158;0,154;-0,6%;7,2%;1,1%;0,1%;1,1%
+3;CUUR0000SEAG01;Watches;0,031;0,038;0,5%;2,7%;6,2%;3,1%;-0,7%
+3;CUUR0000SEAG02;Jewelry;0,127;0,116;-1,2%;8,8%;-0,6%;-1,9%;1,5%
+1;CUUR0000SAT;Transportation;18,182;17,151;19,4%;21,1%;-2,4%;1,9%;2,8%
+2;CUUR0000SAT1;Private transportation;17,404;16,094;19,5%;22,6%;-1,5%;2,0%;2,3%
+3;CUUR0000SETA;New and used motor vehicles;9,218;8,502;13,7%;20,9%;4,8%;-0,7%;0,4%
+3;CUUR0000SETB;Motor fuel;3,822;4,015;49,1%;49,5%;-15,3%;7,6%;7,8%
+3;CUUR0000SETC;Motor vehicle parts and equipment;0,423;0,409;15,3%;11,3%;0,4%;1,8%;1,5%
+3;CUUR0000SETD;Motor vehicle maintenance and repair;1,038;1,075;6,1%;4,8%;3,4%;3,4%;0,5%
+3;CUUR0000SETE;Motor vehicle insurance;2,383;1,554;4,5%;4,1%;-4,8%;0,0%;0,4%
+3;CUUR0000SETF;Motor vehicle fees;0,521;0,538;1,0%;1,9%;0,1%;3,0%;0,1%
+2;CUUR0000SETG;Public transportation;0,777;1,057;26,3%;2,4%;-12,0%;1,0%;11,2%
+3;CUUR0000SETG01;Airline fares;0,481;0,6;37,8%;1,4%;-18,4%;1,7%;16,1%
+3;CUUR0000SETG02;Other intercity transportation;0,096;0,17;-3,6%;-0,1%;2,5%;-1,8%;0,0%
+3;CUUR0000SETG03;Intracity transportation;0,199;0,284;3,6%;6,0%;-4,3%;1,0%;0,4%
+3;#N/A;Unsampled public transportation;0,002;0,003;#N/A;#N/A;#N/A;#N/A;#N/A
+1;CUUR0000SAM;Medical care;8,487;8,466;3,7%;2,2%;1,8%;4,6%;0,4%
+2;CUUR0000SAM1;Medical care commodities;1,524;1,483;2,4%;0,4%;-2,5%;2,5%;0,3%
+3;CUUR0000SEMF;Medicinal drugs;1,422;1,418;2,3%;0,2%;-2,1%;2,5%;0,1%
+3;CUUR0000SEMG;Medical equipment and supplies;0,103;0,065;4,7%;5,9%;-10,0%;1,3%;2,0%
+2;CUUR0000SAM2;Medical care services;6,962;6,983;4,0%;2,5%;2,8%;5,1%;0,4%
+3;CUUR0000SEMC;Professional services;3,585;3,533;1,9%;3,3%;1,9%;1,6%;0,2%
+3;CUUR0000SEMD;Hospital and related services;2,573;2,333;3,8%;3,3%;3,1%;2,9%;0,2%
+3;CUUR0000SEME;Health insurance;0,804;1,116;13,8%;-1,2%;4,8%;20,4%;2,0%
+1;CUUR0000SAR;Recreation;5,108;5,592;4,5%;3,3%;0,9%;1,5%;0,4%
+2;CUUR0000SERA;Video and audio;1,471;1,467;3,4%;2,1%;2,6%;1,6%;0,8%
+3;CUUR0000SERA01;Televisions;0,147;0,089;-9,5%;4,4%;-4,9%;-20,5%;-1,9%
+3;CUUR0000SERA02;Cable and satellite television service;1,069;1,145;5,8%;2,8%;4,2%;3,4%;1,1%
+3;CUUR0000SERA03;Other video equipment;0,027;0,039;-4,3%;-1,3%;1,8%;0,7%;0,7%
+3;CUUR0000SERA04;Video discs and other media including rental of video;0,093;0,071;3,1%;-0,7%;-7,6%;-0,6%;2,3%
+3;CUUR0000SERA05;Audio equipment;0,076;0,07;-0,7%;-5,0%;2,0%;-1,2%;0,1%
+3;CUUR0000SERA06;Recorded music and music subscriptions;0,054;0,042;-0,9%;-0,2%;-0,3%;-3,1%;-0,7%
+3;#N/A;Unsampled video and audio;0,006;0,011;#N/A;#N/A;#N/A;#N/A;#N/A
+2;CUUR0000SERB;Pets pet products and services;1,058;1,159;8,1%;4,1%;0,4%;3,6%;0,3%
+3;CUUR0000SERB01;Pets and pet products;0,546;0,607;8,3%;2,7%;-1,8%;3,1%;1,0%
+3;CUUR0000SERB02;Pet services including veterinary;0,512;0,553;7,8%;5,7%;3,0%;4,2%;-0,4%
+2;CUUR0000SERC;Sporting goods;0,564;0,599;5,7%;6,3%;2,5%;0,1%;-0,2%
+3;CUUR0000SERC01;Sports vehicles including bicycles;0,325;0,364;4,7%;7,8%;1,3%;1,7%;-0,2%
+3;CUUR0000SERC02;Sports equipment;0,227;0,226;7,1%;4,1%;4,3%;-2,2%;-0,2%
+3;#N/A;Unsampled sporting goods;0,011;0,01;#N/A;#N/A;#N/A;#N/A;#N/A
+2;CUUR0000SERD;Photography;0,051;0,069;4,8%;3,6%;3,2%;-1,9%;0,9%
+3;CUUR0000SERD01;Photographic equipment and supplies;0,021;0,026;3,7%;4,3%;5,4%;1,6%;1,7%
+3;CUUR0000SERD02;Photographers and photo processing;0,030;0,042;5,6%;3,1%;1,9%;-5,0%;0,4%
+3;#N/A;Unsampled photography;0,000;0,001;#N/A;#N/A;#N/A;#N/A;#N/A
+2;CUUR0000SERE;Other recreational goods;0,384;0,341;1,4%;2,5%;-3,4%;-5,7%;0,1%
+3;CUUR0000SERE01;Toys;0,299;0,261;0,6%;1,8%;-3,7%;-7,1%;0,0%
+3;CUUR0000SERE02;Sewing machines fabric and supplies;0,027;0,019;2,3%;4,6%;-7,6%;-3,4%;1,6%
+3;CUUR0000SERE03;Music instruments and accessories;0,042;0,046;4,6%;5,9%;0,0%;2,4%;-0,4%
+3;#N/A;Unsampled recreation commodities;0,016;0,015;#N/A;#N/A;#N/A;#N/A;#N/A
+2;CUUR0000SERF;Other recreation services;1,483;1,844;3,2%;3,0%;0,0%;2,1%;0,3%
+3;CUUR0000SERF01;Club membership for shopping clubs fraternal or other organizations or participant sports fees;0,648;0,655;3,7%;1,8%;-0,4%;3,0%;0,5%
+3;CUUR0000SERF02;Admissions;0,468;0,671;1,7%;4,4%;-0,9%;1,4%;0,1%
+3;CUUR0000SERF03;Fees for lessons or instructions;0,174;0,209;3,8%;2,9%;3,5%;0,9%;0,0%
+3;#N/A;Unsampled recreation services;0,193;0,308;#N/A;#N/A;#N/A;#N/A;#N/A
+2;CUUR0000SERG;Recreational reading materials;0,097;0,113;2,7%;0,3%;4,6%;3,8%;0,0%
+3;CUUR0000SERG01;Newspapers and magazines;0,056;0,065;4,8%;2,3%;4,6%;6,1%;0,2%
+3;CUUR0000SERG02;Recreational books;0,041;0,046;-0,2%;-2,5%;4,7%;0,0%;-0,4%
+3;#N/A;Unsampled recreational reading materials;0,000;0,002;#N/A;#N/A;#N/A;#N/A;#N/A
+1;CUUR0000SAE;Education and communication;6,406;6,465;0,8%;1,6%;2,0%;1,4%;-0,1%
+2;CUUR0000SAE1;Education;2,677;2,89;2,5%;2,0%;1,4%;2,1%;0,3%
+3;CUUR0000SEEA;Educational books and supplies;0,087;0,102;3,7%;-0,4%;0,7%;-2,0%;2,2%
+3;CUUR0000SEEB;Tuition other school fees and childcare;2,590;2,789;2,5%;2,1%;1,4%;2,3%;0,2%
+2;CUUR0000SAE2;Communication;3,728;3,575;-0,5%;1,3%;2,4%;0,7%;-0,3%
+3;CUUR0000SEEC;Postage and delivery services;0,086;0,111;4,3%;6,8%;4,1%;5,7%;0,3%
+3;CUUR0000SAE21;Information and information processing;3,642;3,464;-0,6%;1,1%;2,4%;0,6%;-0,3%
+3;CUUR0000SEEE;Information technology hardware and services;1,743;1,235;-1,5%;1,9%;-0,8%;-1,3%;-0,6%
+1;CUUR0000SAG;Other goods and services;2,737;3,083;6,3%;4,5%;2,4%;2,3%;0,5%
+2;CUUR0000SEGA;Tobacco and smoking products;0,526;0,62;7,9%;9,0%;5,1%;5,5%;0,9%
+3;CUUR0000SEGA01;Cigarettes;0,455;0,542;8,2%;9,6%;5,4%;5,8%;0,8%
+3;CUUR0000SEGA02;Tobacco products other than cigarettes;0,066;0,059;5,2%;4,9%;2,1%;2,8%;1,0%
+3;#N/A;Unsampled tobacco and smoking products;0,005;0,019;#N/A;#N/A;#N/A;#N/A;#N/A
+2;CUUR0000SAG1;Personal care;2,211;2,463;5,9%;3,4%;1,8%;1,5%;0,4%
+3;CUUR0000SEGB;Personal care products;0,648;0,634;2,8%;0,1%;-0,3%;-0,9%;0,3%
+3;CUUR0000SEGC;Personal care services;0,546;0,676;6,2%;4,2%;5,6%;2,7%;0,5%
+3;CUUR0000SEGD;Miscellaneous personal services;0,833;0,958;6,6%;4,5%;1,1%;1,3%;-0,1%
+3;CUUR0000SEGE;Miscellaneous personal goods;0,184;0,196;11,6%;6,2%;-0,2%;6,8%;2,4%
