@@ -18,7 +18,6 @@ def build_arg_text(**args):
     arg_text += '&earnings=' + args.get('earnings','Exclude')
     arg_text += '&unemployment=' + args.get('unemployment','Exclude')
     arg_text += '&stocks=' + args.get('stocks','Exclude')
-    arg_text += '&interest=' + args.get('interest','Exclude')
     
     return arg_text
 
@@ -68,15 +67,9 @@ def data_parse(df, **args):
         df_stocks = pd.DataFrame()
     else:
         df_stocks = df[df['Type'] == 'Stocks'] 
-        
-    # Interest
-    if args.get('interest','') in ['','Exclude']:
-        df_interest = pd.DataFrame()
-    else:
-        df_interest = df[df['Type'] == 'Interest'] 
 
     # Combine selected data.
-    df = pd.concat([df_cpi, df_earnings, df_unemployment, df_stocks, df_interest])
+    df = pd.concat([df_cpi, df_earnings, df_unemployment, df_stocks])
 
     # Normalize values to % change the specific category from start of date window.
     baseline_dict = {}
@@ -239,7 +232,7 @@ button {
 <td>
 <iframe src="chart" name="_chart" width="900" height="550" frameBorder="0"></iframe>
 </td>
-<td>
+<td valign="top">
 <form action="chart" method="get" target="_chart">
  <ul>
 
@@ -407,19 +400,12 @@ button {
     </select>
   </li>
 
-  <li>
-    <label for = "interest">Fed Interest Rate:</label>
-    <select name = "interest" id="interest" value="Exclude">
-      <option value = "Exclude" selected>Exclude</option>
-      <option value = "Include">Include</option>
-    </select>
-  </li>
-
   <li class="button">
     <button type="submit">Build Chart</button>
   </li>
 </td>
 </tr></table>
+<p><i>CPI series marked with an asterisk (*) have not been adjusted for normal seasonal variations in pricing due to a lack of available data.</i></p>
 </body>
 </html>
 
@@ -433,7 +419,7 @@ def chart_render():
     args = request.args.to_dict()  
     
     # Check to see if all datatypes are being excluded.
-    if args.get('inflation','By Category') == 'Exclude' and args.get('earnings','Exclude') == 'Exclude' and args.get('unemployment','Exclude') == 'Exclude' and args.get('stocks','Exclude') == 'Exclude' and args.get('interest','Exclude') == 'Exclude':
+    if args.get('inflation','By Category') == 'Exclude' and args.get('earnings','Exclude') == 'Exclude' and args.get('unemployment','Exclude') == 'Exclude' and args.get('stocks','Exclude') == 'Exclude':
         return '<font color="red">Error: No data to display. Please try different chart settings.</font>'
 
     # Check for date mismatch.
