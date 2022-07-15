@@ -420,7 +420,7 @@ button {
     return main_html
 
 @app.route("/chart.html")
-def join_a_guild():
+def chart_render():
     args = request.args
     
     t_df = data_parse(df.copy(deep=True), **args)
