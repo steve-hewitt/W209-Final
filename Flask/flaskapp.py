@@ -117,9 +117,9 @@ def build_line(df, **args):
 def build_bar(df, **args):
     
     # Set dates.
-    start_year = args.get('start_year',2000)
+    start_year = int(args.get('start_year',2000))
     start_date = '1/1/' + str(start_year)
-    end_year = args.get('end_year',2021)
+    end_year = int(args.get('end_year',2021))
     end_date = '12/1/' + str(end_year)
     
     # Set color scheme based on the number of categories.
@@ -147,6 +147,10 @@ def main_page():
 <html>
 <head>
 <style>
+@font-face {
+    font-family: Playfair Display;
+    src: url(http://ww.fonts.googleapis.com/css?family=Playfair+Display);
+}
 
 body {
   font: 1em sans-serif;
@@ -219,21 +223,73 @@ button {
   margin-left: .5em;
 }
 
+/* sidebar menu */
+.sidenav {
+    height: 100%;
+    width: 170px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #F7F3F3;
+    overflow-x: hidden;
+    padding-top: 50px;
+    font-family: "Playfair Display";
+}
+
+/* nav menu links */
+.sidenav a {
+    padding: 6px 8px 6px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #030303;
+    display: block;
+}
+
+/* link hover effect */
+.sidenav a:hover {
+    color: #AC0A0A;
+}
+
+.sidenav img {
+    padding: 6px 8px 6px 20px;
+}
+
+.main {
+    margin-left: 170px;
+    padding: 0px 10px;
+    font-family: "Playfair Display";
+}
+
 </style>
 </head>
 <body>
 
-<img src="https://www.ischool.berkeley.edu/sites/all/themes/custom/i_school/images/logos/berkeleyischool-logo-blue.svg" width="320" height="133" />
+<div class="sidenav">
+    <img src="https://www.ischool.berkeley.edu/sites/default/files/berkeleyischool-logo-modified-blue.svg" width="120" height="68" padding/>
+    <br>
+    <br>
+    <a href="#" style="font-size: 28px">Learn</a>
+    <a href="#">Earnings</a>
+    <a href="#">GDP</a>
+    <a href="#">Interest Rates</a>
+    <a href="#">Inflation Rates</a>
+    <a href="#">Stocks</a>
+</div>
 
-<p>Replace me with all kinds of amazing supporting text.</p>
+<div class="main">
+
+<p>This data visualization illustrates the rate of change for <a href="https://www.bls.gov/cpi/">consumer prices</a> and other economic data have changed over a specified period. The data is <a href="https://www.dallasfed.org/research/basics/indexing.aspx">indexed</a> to a common starting point (e.g., year 2000) and a common ending point (e.g., year 2021) to show how much each measurement has changed over the chosen timeframe as a percentage. The consumer price data can be viewed as a total aggregate figure or it can be separated into major expenditure categories, such as health and food. An increase in consumer prices represents a period of inflation, while a decline represents a period of deflation. Similarly, the other data can be viewed as a total aggregate or by categories.  For instance, the <a href="https://www.bls.gov/cps/earnings.htm">earnings data</a> and <a href="https://www.bls.gov/cps/lfcharacteristics.htm#unemp">unemployment data</a> can be separated by gender (male / female), race or education level. The <a href="https://www.google.com/finance/markets/indexes?hl=en">stocks data</a> represents information for several major US stock indexes.</p>   
+<p>To use this tool, the following steps should be taken: 1) select the type of graph (line graph or bar chart); 2) select a start and end year from the drop-down menus; 3) in the inflation drop-down menu, select whether you would like to view top-line inflation for all consumer goods or by all major expenditure categories; 4) in the remaining drop-down menus, you have to option to view additional data about earnings, unemployment, or stocks.</p>
+
 
 <table>
 <tr>
 <td>
-<iframe src="chart" name="_chart" width="900" height="550" frameBorder="0"></iframe>
+<iframe src="https://apps-summer22.ischool.berkeley.edu/inflation_viz/chart" name="_chart" width="900" height="550" frameBorder="0"></iframe>
 </td>
 <td valign="top">
-<form action="chart" method="get" target="_chart">
+<form action="https://apps-summer22.ischool.berkeley.edu/inflation_viz/chart" method="get" target="_chart">
  <ul>
 
   <li>
@@ -406,6 +462,7 @@ button {
 </td>
 </tr></table>
 <p><i>CPI series marked with an asterisk (*) have not been adjusted for normal seasonal variations in pricing due to a lack of available data.</i></p>
+</div>
 </body>
 </html>
 
@@ -441,7 +498,7 @@ def chart_render():
     else:
         return ''
     
-    return out_html.to_html()
+    return out_html.to_html(embed_options={"actions":False})
 
 if __name__ == "__main__":
     app.run()
