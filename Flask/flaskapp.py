@@ -80,6 +80,8 @@ def data_parse(df, **args):
         baseline_dict[k] = df[(df['Category'] == k) & (df['date'] == v)].value.item()
     df['baseline'] = df['Category'].map(baseline_dict) 
     df['change'] = df['value']/df['baseline'] - 1
+    df['baseline_year'] = df['Category'].map(min_dt).dt.year
+    df['partial_data'] = np.where(df['baseline_year'] > int(args.get('start_year','2000')), "Since " + df['baseline_year'].astype(str), "")
 
     return df
 
@@ -90,6 +92,12 @@ def build_line(df, **args):
     start_date = '1/1/' + str(start_year)
     end_year = args.get('end_year',2021)
     end_date = '12/1/' + str(end_year)
+    
+    # Create title.
+    if end_year != start_year:
+        c_title = 'Change ' + str(start_year) + ' to ' + str(end_year)
+    else:
+        c_title = 'Change during ' + str(start_year)
     
     # Set color scheme based on the number of categories.
     if len(df['Category'].unique()) > 10:
@@ -102,9 +110,9 @@ def build_line(df, **args):
     has_non_hrefs = len(df[df['href'] == 'None']) > 0
     
     # Line Chart
-    t_chart = alt.Chart(df[['date','change','Category','href']][(df['date'] >= start_date) & (df['date'] <= end_date) & (df['href'] != '')], title='Change Since ' + str(start_year) +' by Category').mark_line().encode(
+    t_chart = alt.Chart(df[['date','change','Category','href']][(df['date'] >= start_date) & (df['date'] <= end_date) & (df['href'] != '')], title=c_title + ' by Category').mark_line(strokeWidth=2.5).encode(
             x = alt.X('date', title = 'Year'),
-            y = alt.Y('change', title='Change Since ' + str(start_year), axis=alt.Axis(format='%')),
+            y = alt.Y('change', title = c_title, axis=alt.Axis(format='%')),
             color = alt.Color('Category', scale=alt.Scale(scheme = c_scheme)),
             tooltip = 'Category',
             href = alt.Href('href')
@@ -122,6 +130,12 @@ def build_bar(df, **args):
     end_year = int(args.get('end_year',2021))
     end_date = '12/1/' + str(end_year)
     
+    # Create title.
+    if end_year != start_year:
+        c_title = 'Change ' + str(start_year) + ' to ' + str(end_year)
+    else:
+        c_title = 'Change during ' + str(start_year)
+    
     # Set color scheme based on the number of categories.
     if len(df['Category'].unique()) > 10:
         c_scheme = 'category20'
@@ -129,13 +143,23 @@ def build_bar(df, **args):
         c_scheme = 'category10'
         
     # Bar Chart
-    t_chart = alt.Chart(df[['date','change','Category','href']][(df['date'] == end_date) | ((df['periodName'] == '4th Quarter') & (df['year'] == end_year))],title='Change Since ' + str(start_year) + ' by Category').mark_bar().encode(
+    bars = alt.Chart(df[['date','change','Category','href','partial_data']][(df['date'] == end_date) | ((df['periodName'] == '4th Quarter') & (df['year'] == end_year))],title=c_title + ' by Category').mark_bar().encode(
             x = alt.X('Category', sort='y', axis=alt.Axis(labels=False)),
-            y = alt.Y('change', title='Change Since ' + str(start_year), axis=alt.Axis(format='%')),
+            y = alt.Y('change', title=c_title, axis=alt.Axis(format='%')),
             color = alt.Color('Category', scale=alt.Scale(scheme = c_scheme)),
             tooltip = 'Category',
             href = alt.Href('href')
         ).properties(height=400, width=600)
+    
+    text = bars.mark_text(
+        align = 'center',
+        baseline = 'middle',
+        dy = -5
+    ).encode(
+        text = 'partial_data'
+    )
+    
+    t_chart = bars + text
     
     t_chart['usermeta'] = {"embedOptions": {'loader': {'target': '_chart'}}}
     
@@ -157,10 +181,8 @@ body {
 }
 
 form {
-  /* Center the form on the page */
   margin: 0 auto;
   width: 360px;
-  /* Form outline */
   padding: 1em;
   border: 1px solid #CCC;
   border-radius: 1em;
@@ -177,7 +199,6 @@ form li + li {
 }
 
 label {
-  /* Uniform size & alignment */
   display: inline-block;
   width: 150px;
   text-align: right;
@@ -185,41 +206,31 @@ label {
 
 select,
 textarea {
-  /* To make sure that all text fields have the same font settings
-     By default, textareas have a monospace font */
   font: 1em sans-serif;
 
-  /* Uniform text field size */
   width: 200px;
   box-sizing: border-box;
 
-  /* Match form field borders */
   border: 1px solid #999;
 }
 
 input:focus,
 textarea:focus {
-  /* Additional highlight for focused elements */
   border-color: #000;
 }
 
 textarea {
-  /* Align multiline text fields with their labels */
   vertical-align: top;
 
-  /* Provide space to type some text */
   height: 5em;
 
 }
 
 .button {
-  /* Align buttons with the text fields */
-  padding-left: 150px; /* same size as the label elements */
+  padding-left: 150px;
 }
 
 button {
-  /* This extra margin represent roughly the same space as the space
-     between the labels and their text fields */
   margin-left: .5em;
 }
 
@@ -272,7 +283,6 @@ button {
     <a href="#" style="font-size: 28px">Learn</a>
     <a href="#">Earnings</a>
     <a href="#">GDP</a>
-    <a href="#">Interest Rates</a>
     <a href="#">Inflation Rates</a>
     <a href="#">Stocks</a>
 </div>
@@ -417,7 +427,7 @@ button {
   </li>
 
   <li>
-    <label for = "inflation">Inflation:</label>
+    <label for = "inflation">Inflation (CPI):</label>
     <select name = "inflation" id="inflation">
       <option value = "Exclude">Exclude</option>
       <option value = "By Category" selected>By Category</option>
@@ -480,7 +490,7 @@ def chart_render():
         return '<font color="red">Error: No data to display. Please try different chart settings.</font>'
 
     # Check for date mismatch.
-    if int(args.get('start_year',2000)) >= int(args.get('end_year',2021)):
+    if int(args.get('start_year',2000)) > int(args.get('end_year',2021)):
         return '<font color="red">Error: No data to display. Please try different chart settings.</font>'
 
     # Fetch data.
