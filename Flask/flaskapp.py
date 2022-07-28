@@ -71,17 +71,31 @@ def data_parse(df, **args):
     # Combine selected data.
     df = pd.concat([df_cpi, df_earnings, df_unemployment, df_stocks])
 
-    # Normalize values to % change the specific category from start of date window.
-    baseline_dict = {}
-    min_dt = df[['date','value','Category']].groupby('Category').date.min().to_dict()
-    for k,v in min_dt.items():
-        min_dt[k] = max(v,pd.to_datetime(start_date))
+    # Skip remaining steps if df is empty.
+    if len(df) == 0:
+        return df
+
+    # Normalize values to % change in the specific category from start of date window.
+    baseline_dict, ac_dict = {}, {}
+    series_start_dt = df[['date','value','Category']].groupby('Category').date.min().to_dict()
+    min_dt = df[df['year'] == start_year][['date','value','Category']].groupby('Category').date.min().to_dict()
+    #for k,v in min_dt.items():
+    #    min_dt[k] = max(v,pd.to_datetime(start_date))
     for k,v in min_dt.items():
         baseline_dict[k] = df[(df['Category'] == k) & (df['date'] == v)].value.item()
     df['baseline'] = df['Category'].map(baseline_dict) 
     df['change'] = df['value']/df['baseline'] - 1
-    df['baseline_year'] = df['Category'].map(min_dt).dt.year
+    df['baseline_year'] = df['Category'].map(series_start_dt).dt.year
     df['partial_data'] = np.where(df['baseline_year'] > int(args.get('start_year','2000')), "Since " + df['baseline_year'].astype(str), "")
+
+    # Looking up anual change
+    cat_list = df['Category'].to_list()
+    date_list = df['date'].to_list()
+    val_list = df['value'].to_list()
+    val_lookup = dict(zip(zip(cat_list,date_list), val_list))
+    df['past_key']  = list(zip(df['Category'], df['date'] - pd.offsets.DateOffset(years=1)))
+    df['past_val'] = df['past_key'].map(val_lookup)
+    df['yoy_change'] = df['value'] / df['past_val'] - 1
 
     return df
 
@@ -143,27 +157,155 @@ def build_bar(df, **args):
         c_scheme = 'category10'
         
     # Bar Chart
-    bars = alt.Chart(df[['date','change','Category','href','partial_data']][(df['date'] == end_date) | ((df['periodName'] == '4th Quarter') & (df['year'] == end_year))],title=c_title + ' by Category').mark_bar().encode(
+    t_chart = alt.Chart(df[['date','change','Category','href','partial_data']][(df['date'] == end_date) | ((df['periodName'] == '4th Quarter') & (df['year'] == end_year))]).mark_bar().encode(
             x = alt.X('Category', sort='y', axis=alt.Axis(labels=False)),
             y = alt.Y('change', title=c_title, axis=alt.Axis(format='%')),
             color = alt.Color('Category', scale=alt.Scale(scheme = c_scheme)),
-            tooltip = 'Category',
+            tooltip = [alt.Tooltip('date:T', title = 'Date', format='%B %Y'), 'Category',
+                   alt.Tooltip('change:Q',title = "Total Change",  format='.1%'), 
+                   alt.Tooltip('partial_data',title = "Notes")],
             href = alt.Href('href')
         ).properties(height=400, width=600)
     
-    text = bars.mark_text(
-        align = 'center',
-        baseline = 'middle',
-        dy = -5
-    ).encode(
-        text = 'partial_data'
-    )
-    
-    t_chart = bars + text
     
     t_chart['usermeta'] = {"embedOptions": {'loader': {'target': '_chart'}}}
     
     return t_chart
+
+def build_line_v2(df, **args):
+    
+    # Set dates.
+    start_year = args.get('start_year',2000)
+    start_date = '1/1/' + str(start_year)
+    ar_start_year = '1/1/' + str(int(start_year) - 1)
+    end_year = args.get('end_year',2021)
+    end_date = '12/1/' + str(end_year)
+    
+    # Create title.
+    if end_year != start_year:
+        c_title = 'Change ' + str(start_year) + ' to ' + str(end_year)
+    else:
+        c_title = 'Change during ' + str(start_year)
+
+    df_test = df.loc[(df['date'] >= ar_start_year) & (df['date'] <= end_date)]
+    
+    # new data frame with only graph values
+    graph_data = df_test[['date', 'Category', 'change','yoy_change', 'href']]
+    graph_data['change'] = graph_data['change'].round(decimals = 3)
+    graph_data['yoy_change'] = graph_data['yoy_change'].round(decimals = 3)
+    graph_data = graph_data[graph_data['date'] >= start_date]
+    
+    s2 = pd.DataFrame(graph_data.Category.unique(), columns = ['Category'])
+    highlight = alt.selection_multi(on = 'mouseover', fields=['Category'], nearest = True)
+
+    line = alt.Chart(graph_data).mark_line(interpolate = 'basis').encode(
+        x = alt.X('date:T', title = "Year"),
+        y = alt.Y('change:Q', title = c_title, axis=alt.Axis(ticks = False, domain = False, format='%')),
+        tooltip = [alt.Tooltip('date:T', title = 'Date', format='%B %Y'), 'Category',
+                   alt.Tooltip('change:Q',title = "Cumulative Change",  format='.1%'), 
+                   alt.Tooltip('yoy_change:Q',title = "Annual Change",  format='.1%')],    
+        color = alt.Color('Category:N'),
+        href = alt.Href('href'),
+        opacity = alt.condition(highlight, alt.value(1), alt.value(0.2))).properties(
+        width=600, height=500
+    )
+
+    hover_legend = alt.Chart(s2).mark_circle(size = 100).encode(
+        y = alt.Y('Category:N', axis = alt.Axis(orient = 'right', domain = False, ticks = False), title = None),
+        color = alt.Color('Category:N', legend = None),
+        opacity = alt.condition(highlight, alt.value(1), alt.value(0.2))
+    ).add_selection(
+        highlight
+    )
+    
+    t_chart = (line | hover_legend).configure_axis(
+        grid=False).configure_view(
+        strokeWidth = 0)
+    
+    
+    t_chart['usermeta'] = {"embedOptions": {'loader': {'target': '_chart'}}}
+    
+    return t_chart
+
+@app.route("/learn")
+def learn_page():
+    learn_html = """
+    <html>
+    <head>
+        <style>
+        body {
+        font: 1em sans-serif;
+        }
+
+        /* sidebar menu */
+        .sidenav {
+            height: 100%;
+            width: 170px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #F7F3F3;
+            overflow-x: hidden;
+            padding-top: 50px;
+        }
+        /* nav menu links */
+        .sidenav a {
+            padding: 6px 8px 6px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #030303;
+            display: block;
+        }
+        /* link hover effect */
+        .sidenav a:hover {
+            color: #AC0A0A;
+        }
+        .sidenav img {
+            padding: 6px 8px 6px 20px;
+        }
+        .main {
+            margin-left: 170px;
+            padding: 0px 10px;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="sidenav">
+            <img src="https://www.ischool.berkeley.edu/sites/default/files/berkeleyischool-logo-modified-blue.svg" width="120" height="68" padding/>
+            <br>
+            <br>
+            <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/learn" style="color: #AC0A0A">Learn</a>
+            <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/">Explore</a>
+            <a href="#">Build for me</a>
+        </div>
+
+        <div class="main">
+            <h2>About this website</h2>
+            <p>This data visualization illustrates the rate of change for <a href="https://www.bls.gov/cpi/">consumer prices</a> and other economic data have changed over a specified period. The data is <a href="https://www.dallasfed.org/research/basics/indexing.aspx">indexed</a> to a common starting point (e.g., year 2000) and a common ending point (e.g., year 2021) to show how much each measurement has changed over the chosen timeframe as a percentage.</p> 
+            <p>The consumer price data can be viewed as a total aggregate figure or it can be separated into major expenditure categories, such as health and food. An increase in consumer prices represents a period of inflation, while a decline represents a period of deflation.</p>
+            <p>Similarly, the other data can be viewed as a total aggregate or by categories. For instance, the <a href="https://www.bls.gov/cps/earnings.htm">earnings data</a> and <a href="https://www.bls.gov/cps/lfcharacteristics.htm#unemp">unemployment data</a> can be separated by gender (male / female), race or education level. The <a href="https://www.google.com/finance/markets/indexes?hl=en">stocks data</a> represents information for several major US stock indexes.</p>   
+
+            <h2>How we thought about this tool</h2>
+            <p>This text will describe more about the website and data sources.</p>
+
+            <h2>Credits</h2>
+            <p>This website was created by:</p>
+            <ul>
+                <li>Pedro Belotti</li>
+                <li>Steven Hewitt</li>
+                <li>Emily Huang</li>
+                <li>Nathan Martinez</li>
+                <li>Giulia Olsson</li>
+            </ul>
+        </div>
+    </body>
+    </html>
+
+    """
+
+    return learn_html
+
 
 @app.route("/")
 def main_page():
@@ -171,11 +313,6 @@ def main_page():
 <html>
 <head>
 <style>
-@font-face {
-    font-family: Playfair Display;
-    src: url(http://ww.fonts.googleapis.com/css?family=Playfair+Display);
-}
-
 body {
   font: 1em sans-serif;
 }
@@ -245,7 +382,6 @@ button {
     background-color: #F7F3F3;
     overflow-x: hidden;
     padding-top: 50px;
-    font-family: "Playfair Display";
 }
 
 /* nav menu links */
@@ -269,7 +405,6 @@ button {
 .main {
     margin-left: 170px;
     padding: 0px 10px;
-    font-family: "Playfair Display";
 }
 
 </style>
@@ -280,18 +415,22 @@ button {
     <img src="https://www.ischool.berkeley.edu/sites/default/files/berkeleyischool-logo-modified-blue.svg" width="120" height="68" padding/>
     <br>
     <br>
-    <a href="#" style="font-size: 28px">Learn</a>
-    <a href="#">Earnings</a>
-    <a href="#">GDP</a>
-    <a href="#">Inflation Rates</a>
-    <a href="#">Stocks</a>
+    <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/learn">Learn</a>
+    <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/" style="color: #AC0A0A">Explore</a>
+    <a href="#">Build for me</a>
 </div>
 
 <div class="main">
 
-<p>This data visualization illustrates the rate of change for <a href="https://www.bls.gov/cpi/">consumer prices</a> and other economic data have changed over a specified period. The data is <a href="https://www.dallasfed.org/research/basics/indexing.aspx">indexed</a> to a common starting point (e.g., year 2000) and a common ending point (e.g., year 2021) to show how much each measurement has changed over the chosen timeframe as a percentage. The consumer price data can be viewed as a total aggregate figure or it can be separated into major expenditure categories, such as health and food. An increase in consumer prices represents a period of inflation, while a decline represents a period of deflation. Similarly, the other data can be viewed as a total aggregate or by categories.  For instance, the <a href="https://www.bls.gov/cps/earnings.htm">earnings data</a> and <a href="https://www.bls.gov/cps/lfcharacteristics.htm#unemp">unemployment data</a> can be separated by gender (male / female), race or education level. The <a href="https://www.google.com/finance/markets/indexes?hl=en">stocks data</a> represents information for several major US stock indexes.</p>   
-<p>To use this tool, the following steps should be taken: 1) select the type of graph (line graph or bar chart); 2) select a start and end year from the drop-down menus; 3) in the inflation drop-down menu, select whether you would like to view top-line inflation for all consumer goods or by all major expenditure categories; 4) in the remaining drop-down menus, you have to option to view additional data about earnings, unemployment, or stocks.</p>
 
+<h2>Instructions</h2>
+<p>To use this tool, the following steps should be taken:</p>
+<ol>
+  <li>Select the type of graph (line graph or bar chart).</li>
+  <li>Select a start and end year from the drop-down menus.</li>
+  <li>In the inflation drop-down menu, select whether you would like to view top-line inflation for all consumer goods or by all major expenditure categories</li>
+  <li>In the remaining drop-down menus, you have to option to view additional data about earnings, unemployment, or stocks.</li>
+</ol>
 
 <table>
 <tr>
@@ -512,4 +651,3 @@ def chart_render():
 
 if __name__ == "__main__":
     app.run()
-
