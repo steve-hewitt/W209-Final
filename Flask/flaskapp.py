@@ -30,7 +30,9 @@ def data_parse(df, **args):
     
     start_date = '1/1/' + str(args.get('start_year','2000'))
     end_date = '12/1/' + str(args.get('end_year','2021'))
-    
+    start_year = int(args.get('start_year',2000))
+    end_year = int(args.get('end_year',2021))
+
     # Start off with no hyperlinks and add where needed.
     df['href'] = arg_text
     
@@ -78,9 +80,7 @@ def data_parse(df, **args):
     # Normalize values to % change in the specific category from start of date window.
     baseline_dict, ac_dict = {}, {}
     series_start_dt = df[['date','value','Category']].groupby('Category').date.min().to_dict()
-    min_dt = df[df['year'] == start_year][['date','value','Category']].groupby('Category').date.min().to_dict()
-    #for k,v in min_dt.items():
-    #    min_dt[k] = max(v,pd.to_datetime(start_date))
+    min_dt = df[df['date'] >= start_date][['date','value','Category']].groupby('Category').date.min().to_dict()
     for k,v in min_dt.items():
         baseline_dict[k] = df[(df['Category'] == k) & (df['date'] == v)].value.item()
     df['baseline'] = df['Category'].map(baseline_dict) 
@@ -161,7 +161,7 @@ def build_bar(df, **args):
             x = alt.X('Category', sort='y', axis=alt.Axis(labels=False)),
             y = alt.Y('change', title=c_title, axis=alt.Axis(format='%')),
             color = alt.Color('Category', scale=alt.Scale(scheme = c_scheme)),
-            tooltip = [alt.Tooltip('date:T', title = 'Date', format='%B %Y'), 'Category',
+            tooltip = ['Category',
                    alt.Tooltip('change:Q',title = "Total Change",  format='.1%'), 
                    alt.Tooltip('partial_data',title = "Notes")],
             href = alt.Href('href')
@@ -207,7 +207,7 @@ def build_line_v2(df, **args):
         color = alt.Color('Category:N'),
         href = alt.Href('href'),
         opacity = alt.condition(highlight, alt.value(1), alt.value(0.2))).properties(
-        width=600, height=500
+        width=600, height=400
     )
 
     hover_legend = alt.Chart(s2).mark_circle(size = 100).encode(
@@ -575,7 +575,7 @@ button {
   </li>
 
   <li>
-    <label for = "earnings">Earnings:</label>
+    <label for = "earnings">Earnings (E):</label>
     <select name = "earnings" id="earnings">
       <option value = "Exclude" selected>Exclude</option>
       <option value = "Total">Total</option>
@@ -587,7 +587,7 @@ button {
   </li>
 
   <li>
-    <label for = "unemployment">Unemployment:</label>
+    <label for = "unemployment">Unemployment (U):</label>
     <select name = "unemployment" id="unemployment">
       <option value = "Exclude" selected>Exclude</option>
       <option value = "Total">Total</option>
@@ -598,7 +598,7 @@ button {
   </li>
 
   <li>
-    <label for = "stocks">Stock Markets:</label>
+    <label for = "stocks">Stock Markets (S):</label>
     <select name = "stocks" id="stocks">
       <option value = "Exclude" selected>Exclude</option>
       <option value = "Include">Include</option>
@@ -640,7 +640,7 @@ def chart_render():
         return '<font color="red">Error: No data to display. Please try different chart settings.</font>'
 
     if args.get('chart_type','Line Chart') == 'Line Chart':
-        out_html = build_line(t_df, **args)
+        out_html = build_line_v2(t_df, **args)
         pass
     elif args.get('chart_type','') == 'Bar Chart':
         out_html = build_bar(t_df, **args)
