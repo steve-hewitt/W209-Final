@@ -198,7 +198,7 @@ def build_line_v2(df, **args):
     s2 = pd.DataFrame(graph_data.Category.unique(), columns = ['Category'])
     highlight = alt.selection_multi(on = 'mouseover', fields=['Category'], nearest = True)
 
-    line = alt.Chart(graph_data).mark_line(interpolate = 'basis').encode(
+    line = alt.Chart(graph_data).mark_line(interpolate = 'basis', strokeWidth=3).encode(
         x = alt.X('date:T', title = "Year"),
         y = alt.Y('change:Q', title = c_title, axis=alt.Axis(ticks = False, domain = False, format='%')),
         tooltip = [alt.Tooltip('date:T', title = 'Date', format='%B %Y'), 'Category',
