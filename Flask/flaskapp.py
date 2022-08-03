@@ -277,27 +277,26 @@ def learn_page():
             <br>
             <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/learn" style="color: #AC0A0A">Learn</a>
             <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/">Explore</a>
-            <a href="#">Build for me</a>
+            <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/credits">Credits</a>
         </div>
 
         <div class="main">
-            <h2>About this website</h2>
-            <p>This data visualization illustrates the rate of change for <a href="https://www.bls.gov/cpi/">consumer prices</a> and other economic data have changed over a specified period. The data is <a href="https://www.dallasfed.org/research/basics/indexing.aspx">indexed</a> to a common starting point (e.g., year 2000) and a common ending point (e.g., year 2021) to show how much each measurement has changed over the chosen timeframe as a percentage.</p> 
-            <p>The consumer price data can be viewed as a total aggregate figure or it can be separated into major expenditure categories, such as health and food. An increase in consumer prices represents a period of inflation, while a decline represents a period of deflation.</p>
-            <p>Similarly, the other data can be viewed as a total aggregate or by categories. For instance, the <a href="https://www.bls.gov/cps/earnings.htm">earnings data</a> and <a href="https://www.bls.gov/cps/lfcharacteristics.htm#unemp">unemployment data</a> can be separated by gender (male / female), race or education level. The <a href="https://www.google.com/finance/markets/indexes?hl=en">stocks data</a> represents information for several major US stock indexes.</p>   
-
-            <h2>How we thought about this tool</h2>
-            <p>This text will describe more about the website and data sources.</p>
-
-            <h2>Credits</h2>
-            <p>This website was created by:</p>
-            <ul>
-                <li>Pedro Belotti</li>
-                <li>Steven Hewitt</li>
-                <li>Emily Huang</li>
-                <li>Nathan Martinez</li>
-                <li>Giulia Olsson</li>
-            </ul>
+            <h1>Learning Resources</h1>
+            <h2>Where our data comes from</h2>
+            <p><a href="https://www.bls.gov">U.S. Bureau of Labor Statistics</a> - One of the main U.S. government agencies producting economic information.</p>
+            <p><a href="https://www.google.com/finance/">Google Finance</a> - Provider of real-time and historical stock market information.</p>
+            <h1>Learn about Indicators</h1>
+            <h3>What is inflation?</h2>
+            <p>Inflation is a rise in prices, which can be translated as the decline of purchasing power over time. It is normally measured by the CPI (Consumer Price Index). The rate at which purchasing power drops can be reflected in the average price increase of a basket of selected goods and services over some period of time. The rise in prices, which is often expressed as a percentage, means that a unit of currency effectively buys less than it did in prior periods. Inflation can be contrasted with deflation, which occurs when prices decline and purchasing power increases.</p>
+            <h3>How earnings are calculated?</h2>
+            <p>The Occupational Employment and Wage Statistics (OEWS) program produces employment and wage estimates annually for over 800 occupations. These estimates are available for the nation as a whole, for individual states, and for metropolitan and nonmetropolitan areas; national occupational estimates for specific industries are also available.</p>
+            <h3>How unemployment is measured?</h2>
+            <p>When workers are unemployed, they, their families, and the country as a whole lose. Workers and their families lose wages, and the country loses the goods or services that could have been produced. In addition, the purchasing power of these workers is lost, which can lead to unemployment for yet other workers.</p>
+            <p>Early each month, the Bureau of Labor Statistics (BLS) of the U.S. Department of Labor announces the total number of employed and unemployed people in the United States for the previous month, along with many characteristics about them. These figures, particularly the unemployment rate—which tells you the percentage of the labor force that is unemployed—receive wide coverage in the media.</p>
+            <h3>What are the stock markets?</h2>
+            <p>Stock markets are venues where buyers and sellers meet to exchange equity shares of public corporations. Stock markets are components of a free-market economy because they enable democratized access to investor trading and exchange of capital. Stock markets create efficient price discovery and efficient dealing.</p>
+            
+            <p>Learn more about all these indicators by exploring our tool!</p>
         </div>
     </body>
     </html>
@@ -306,6 +305,77 @@ def learn_page():
 
     return learn_html
 
+
+@app.route("/credits")
+def credits_page():
+    credits_html = """
+    <html>
+    <head>
+        <style>
+        body {
+        font: 1em sans-serif;
+        }
+
+        /* sidebar menu */
+        .sidenav {
+            height: 100%;
+            width: 170px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #F7F3F3;
+            overflow-x: hidden;
+            padding-top: 50px;
+        }
+        /* nav menu links */
+        .sidenav a {
+            padding: 6px 8px 6px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #030303;
+            display: block;
+        }
+        /* link hover effect */
+        .sidenav a:hover {
+            color: #AC0A0A;
+        }
+        .sidenav img {
+            padding: 6px 8px 6px 20px;
+        }
+        .main {
+            margin-left: 170px;
+            padding: 0px 10px;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="sidenav">
+            <img src="https://www.ischool.berkeley.edu/sites/default/files/berkeleyischool-logo-modified-blue.svg" width="120" height="68" padding/>
+            <br>
+            <br>
+            <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/learn">Learn</a>
+            <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/">Explore</a>
+            <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/credits" style="color: #AC0A0A">Credits</a>
+        </div>
+
+        <div class="main">
+            <h1>Credits</h1>
+            <p>This website was created by:</p>
+            <ul>
+                <li>Pedro Belotti</li>
+                <li>Steven Hewitt</li>
+                <li>Emily Huang</li>
+                <li>Nathan Martinez</li>
+                <li>Giulia Olsson</li>
+            </ul>
+
+            <h3>Special thanks to Professor Annette Greiner!</h2>
+        </div>
+    </body>
+</html>
+    """
+    return credits_html
 
 @app.route("/")
 def main_page():
@@ -417,21 +487,39 @@ button {
     <br>
     <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/learn">Learn</a>
     <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/" style="color: #AC0A0A">Explore</a>
-    <a href="#">Build for me</a>
+    <a href="https://apps-summer22.ischool.berkeley.edu/inflation_viz/credits">Credits</a>
 </div>
 
 <div class="main">
 
+<h1>Find how economic indicators changed over time.</h1>
+<p>Our goal is to make key economic indicators accessible to everyone. This tool brings critical economic data for you to run your personal finances in a simple and understandable format. The charts you build will show the cumulative percentage change in the selected metrics over the selected timeframe.</p>
 
-<h2>Instructions</h2>
-<p>To use this tool, the following steps should be taken:</p>
-<ol>
-  <li>Select the type of graph (line graph or bar chart).</li>
-  <li>Select a start and end year from the drop-down menus.</li>
-  <li>In the inflation drop-down menu, select whether you would like to view top-line inflation for all consumer goods or by all major expenditure categories</li>
-  <li>In the remaining drop-down menus, you have to option to view additional data about earnings, unemployment, or stocks.</li>
-</ol>
+<p>Here's how to get started:</p>
 
+<p><b>Step 1: What is your main objective?</b></p>
+<p>Start by thinking what you'd like to accomplish, and then find the best option for you below.</p>
+<ul>
+    <li>Explore how a certain indicator evolved over the years. Action: choose Line Chart on the chart type dropdown.</li>
+    <li>Compare or find a specific value of an indicator. Action: choose Bar Chart on the chart type dropdown.</li>
+</ul>
+
+<p><b>Step 2: What period are you interested in?</b></p>
+<p>Select the start year and the end year of your choice. When using a line chart, you can hover your mouse over an individual datapoint to see the annual change.</p>
+
+
+<p><b>Step 3: What indicators are you interested in?</b></p>
+<p>Choose the indicators to include on the dropdown menus.</p>
+<ul>
+    <li><b>Inflation</b> measures the change in prices, you can see it as a total that represents your living costs, or by category.</li>
+    <li><b>Earnings</b> measures the average wages for employees, it also show a total and a breakdown by race, education or gender.</li>
+    <li><b>Unemployment</b> shows the rate of change in the number of people looking for employment, you can also explore it by education, gender and race.</li>
+    <li><b>Stock markets</b> show the result of the main indices: S&P, NASDAQ and Dow Jones, it is used to help you compare how a similar financial market investments would perform.</li>
+</ul>
+
+<p>Once you are done, click on Build Chart! The chart will update and allow you to explore as you mouse over (if you click on an inflation line it will open up its components).</p>
+
+<p><b>Note</b>: If you've built a "By Category" line chart, you can choose to isolate certain categories by clicking on the colored circle in the legend! If you want to click into a category to see a further split in that specific category, you can click on the category in the graph itself! To compare different charts, some users find it helpful to open copies of this page in multiple tabs or windows.</p>
 <table>
 <tr>
 <td>
