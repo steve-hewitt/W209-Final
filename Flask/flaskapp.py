@@ -282,6 +282,8 @@ def learn_page():
 
         <div class="main">
             <h1>Learning Resources</h1>
+            <h2>Who this website is designed to help</h2>
+            <p>People with a basic to intermediate understanding of economic topics like inflation who want to learn about changes in economic indicators that impact their life.</p>
             <h2>Where our data comes from</h2>
             <p><a href="https://www.bls.gov">U.S. Bureau of Labor Statistics</a> - One of the main U.S. government agencies producting economic information.</p>
             <p><a href="https://www.google.com/finance/">Google Finance</a> - Provider of real-time and historical stock market information.</p>
@@ -493,7 +495,7 @@ button {
 <div class="main">
 
 <h1>Find how economic indicators changed over time.</h1>
-<p>Our goal is to make key economic indicators accessible to everyone. This tool brings critical economic data for you to run your personal finances in a simple and understandable format. The charts you build will show the cumulative percentage change in the selected metrics over the selected timeframe.</p>
+<p>Our goal is to make key economic indicators accessible to everyone. We believe everyone has the right to understand how economic variables change their lives, especially if they don’t have any prior knowledge. This tool brings critical economic data for you to run your personal finances in a simple and understandable format. The charts you build will show the cumulative percentage change in the selected metrics over the selected timeframe.</p>
 
 <p>Here's how to get started:</p>
 
