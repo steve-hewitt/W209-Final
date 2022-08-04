@@ -4,7 +4,7 @@ UC Berkeley School of Information<br>
 Data Visualization and Communication (W209)<br>
 Final Project<br>
 
-<b>Project Participants:</b>
+Project Participants:
 <ul><li>Pedro Belotti</li>
 <li>Steve Hewitt</li>
 <li>Emily Huang</li>
@@ -13,7 +13,7 @@ Final Project<br>
 
 https://apps-summer22.ischool.berkeley.edu/inflation_viz/<br>
 
-The codebase in this repository is needed corresponds to the live version of our project website.
+The codebase in this repository corresponds to the live version of our project website.
 
 ### Repo Contents
     ├── Final_Data                                 <- Code to pull and combine data.
